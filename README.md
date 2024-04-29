@@ -1,5 +1,5 @@
 # derivative-tinygp
-Summary notebooks using derivative gaussian processes with tinygp. Unlike the tutorial, we implement a 2D derivative gaussian process and perform Bayesian inference using a 2D derivative gaussian process.
+Summary notebooks using derivative gaussian processes with tinygp. Unlike the tutorial, we implement a 2D derivative gaussian process and perform Bayesian inference using a 2D derivative gaussian process. If you want these features to be added to `tinygp`, feel free to notify me so I can request it.
 
 # Notebooks
 1. `01_1d_deriv_gp.ipynb`: 1D Derivative Gaussian Process

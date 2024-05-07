@@ -102,37 +102,7 @@ def load_kernel(before_fit = True, params = None):
         scale = params['scale']
     return amp**2. * kernels.Matern52(scale)
 
-def get_gp_samples_at_x_from_u(rng_key, num_samples, pred, params, x, xu):
-    '''
-    Vectorized GP sampling at x from u
-    '''
-    # generate keys for gp samples
-    rng_key_vec = jax.random.split(rng_key, num_samples)
-
-    # generate data in a vectorizable way
-    # key is to vectorize the operation with respect to a vector of rng_keys
-    def generate_data(rng_key):
-        # generate kernel parameters with best-fit GP parameters
-        base_kernel = load_kernel(before_fit = False, params = params)
-        gp_u = GaussianProcess(base_kernel, xu, diag=1e-4)
-
-        gp_u_key, gp_key = jax.random.split(rng_key, 2)
-        log_rate_u = pred(gp_u_key)['log_rate_u'].T
-        log_rate_u = jnp.squeeze(log_rate_u, axis = -1) # shape mismatch otherwise (shape_ll ~ (shape_x, shape_x))
-        _, gp_x = gp_u.condition(log_rate_u, x, diag = 1e-4) # p(x|u)
-        log_rate = gp_x.sample(gp_key)
-        return log_rate
-
-    generate_data_vec = jax.vmap(generate_data)
-
-    def body_fn():
-        rng_key_vec = jax.random.split(rng_key, num_samples)
-        log_rate = generate_data_vec(rng_key_vec)
-        return log_rate
-    
-    return jit(body_fn)()
-
-def extrapolate_gp(rng_key, num_samples, pred, params, x, xu):
+def extrapolate_gp(rng_key, num_samples, pred, params, x, xu): 
     '''
     Vectorized GP sampling at x from u
     '''
@@ -162,18 +132,18 @@ def extrapolate_gp(rng_key, num_samples, pred, params, x, xu):
     
     return jit(body_fn)()
 
-def svi_loop(rng_key, num_steps, svi, x, xu, y, gp_rng_key = jax.random.PRNGKey(0)):
+def svi_loop(rng_key, num_steps, svi, x, xp, y, gp_rng_key = jax.random.PRNGKey(0)):
     '''
     Simple Loop for SVI optimization
     '''
     # svi update function
     def body_fn(i, svi_state):
         gp_rng_key = jax.random.split(svi_state.rng_key)[-1]
-        svi_state, train_loss = svi.update(svi_state, x, xu, y, gp_rng_key)
+        svi_state, train_loss = svi.update(svi_state, x, xp, y, gp_rng_key)
         return svi_state, train_loss
     
     # initial svi state
-    svi_state = svi.init(rng_key, x, xu, y, gp_rng_key)
+    svi_state = svi.init(rng_key, x, xp, y, gp_rng_key)
     
     # loop over num_steps
     losses = [] 

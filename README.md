@@ -1,5 +1,5 @@
 # derivative-tinygp
-Summary notebooks using derivative gaussian processes with tinygp. Building from the `tinygp` tutorial on [Derivative Observations & Pytree Data][1], we implement a 2D derivative gaussian process, perform SVI with 1D derivative gaussian processes, and perform SVI using a 2D derivative and sparse gaussian process. 
+Summary notebooks using derivative gaussian processes with tinygp. Building from the `tinygp` tutorial on [Derivative Observations & Pytree Data][1], we implement a 2D derivative gaussian process, perform SVI with 1D derivative gaussian processes, and perform SVI using 2D derivative gaussian processes.
 
 # Notebooks
 1. `01_1d_deriv_gp.ipynb`: 1D Derivative Gaussian Process

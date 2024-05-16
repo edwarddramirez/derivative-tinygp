@@ -1,5 +1,6 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/edwarddramirez/derivative-tinygp/HEAD) [![License: CC0-1.0](https://img.shields.io/badge/License-CC0-1.0%202.0-brightgreen.svg)](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en) ![Python](https://img.shields.io/badge/python-3.11.4-blue.svg) ![Repo Size](https://img.shields.io/github/repo-size/edwarddramirez/derivative-tinygp)
+
 # derivative-tinygp 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/edwarddramirez/derivative-tinygp/HEAD)
 
 Summary notebooks implementing derivative gaussian processes with `tinygp`. Building from the `tinygp` tutorial on [Derivative Observations & Pytree Data][1], we implement a 2D derivative gaussian process, perform SVI with 1D derivative gaussian processes, and perform SVI using 2D derivative gaussian processes. 
 
